@@ -1,0 +1,21 @@
+@CHARSET "ISO-8859-1";
+<!-- feuille de style css pour la compatibilité avec jeayui!>
+a:link, a:visited {
+
+font:12px/18px "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+color:#319FFF;
+text-decoration:none;
+}
+
+a:hover {
+	
+font:12px/18px "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+color:#726F61;
+text-decoration:none;
+}
+
+p {
+font-size:13px;
+margin:5px 0 5px;
+text-align:justify;
+}

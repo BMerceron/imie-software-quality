@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<title>MVC-Reservation</title>
+<!--  style css du site -->
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+</head>
+<script LANGUAGE="javascript">
+$(document).ready(function() {
+	  var ok;
+	  ok=0;
+$("#login").keyup(function() {
+    var $t = $(this);
+    $(this).css('background-color','#F9D3D3');
+    var $e = $("#messagel");
+    if (!$t.val()) {
+        $e.text("Veuillez saisir le champ login.").show();
+        ok=0;
+    } else {
+        $e.hide();
+        $(this).css('background-color','#FFFFFF');
+        ok=1;
+    }
+}).keyup();
+$("#password").keyup(function() {
+    var $t = $(this);
+    $(this).css('background-color','#F9D3D3');
+    var $e = $("#messagep");
+    if (!$t.val()) {
+        $e.text("Veuillez saisir le champ password.").show();
+        ok=0;
+    } else {
+        $e.hide();
+        $(this).css('background-color','#FFFFFF');
+        ok=1;
+    }
+}).keyup();
+
+$(".verif_form").submit(function(){  
+if(ok=="0"){  
+    return false;        
+  }
+  else{
+
+  $.post($(this).attr("action"), $(this).serialize(), function(data){
+	  var $e = $("#messagee");
+      // traitement à exécuter une fois le formulaire posté.
+      //data est sous la forme: ok monlogin (voir verif.php)
+      var ok=data.substr(0,2);
+      var token=data.substr(3,data.length);
+      if(ok=="ok"){
+    	  $(location).attr('href',"accueil.php?id="+token);
+      }
+      else
+	  $e.text("info:"+data).show();
+  });
+  return false;
+
+  }
+});
+
+
+});
+</script> 
+<body>

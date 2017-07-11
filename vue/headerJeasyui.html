@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<title>MVC-Reservation</title>
+<!--  style css du site -->
+ <link rel="stylesheet" type="text/css" href="css/style_compatible.css">
+	<link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+	<!--  bibliotheque jquery du framework jeasyui -->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script language="javascript" type="text/javascript">
+var token=readCookie("Nantes");
+$(function(){
+	/* appel de la fonction consultLivre sur doubleclic sur le ligne du datagrid*/
+	$('#dg').datagrid({
+		onDblClickCell:function(field,row){
+		consultLivre();
+		  }
+		});
+/* iniatilisation du formulaire de suppression*/
+	$('#fmd').form({
+		url:'delLivre.php?id='+token,
+		onSubmit:function(){				
+		},
+		success:function(data){
+			closeWindow();
+			$.messager.alert('Information', data, 'info');
+			$('#dg').datagrid('reload'); 
+	
+		}
+	});
+});
+	/* function permettant d'afficher les liens d'editions et de suppressions dans la colonne du datagrid*/
+	function formatDetail(val,row) {
+	/* recuperation de l'id session par le cookies*/
+	token=readCookie("Nantes");
+		
+		res2 = "<a title='Editer' href=\"editLivre.php?id="+token+"&livreid="+row.id+"\" ><img src=\"images/pencil.png\" border=\"0\"></a> ";
+		res3 = "<a title='Supprimer' href=\"#\" onclick=\"delLivre()\"><img src=\"images/cancel.png\" border=\"0\"></a>";	
+
+	return  res2 + res3;
+			}
+	function consultLivre(){
+/* fonction permettant d'afficherune fenetre modale d'affichage du livre*/
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			$('#dlc').dialog('open').dialog('setTitle','Consultation du Livre '+row.titre);
+			$('#fmc').form('load',row);	
+			
+		}
+	}
+	/* fonction permettant d'afficher  une fenetre modale de suppression du livre*/
+function delLivre(){
+		
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+		$('#dld').dialog('open').dialog('setTitle','Suppression du livre '+row.titre + ' de  ' +row.auteur);
+		$('#fmd').form('load',row);		
+		}	
+	}
+	function closeWindow(){
+
+/* fonction permettant de fermer la feneetre modale de consultation du livre*/	
+		$('#dlc').dialog('close');	
+
+		/*fermeture de la fenetre de suppression du livre*/
+		
+		$('#dld').dialog('close')
+}	
+
+	/*fonction permettant de lire les cookies*/
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}		
+	</script>
+
+</head>
+<body>
